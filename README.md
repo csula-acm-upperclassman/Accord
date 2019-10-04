@@ -10,6 +10,10 @@ Non-View Components and View Components are essentially the same, but they serve
 
 Note: View Components can be replaced, but Non-View Components should not be. Divs are simply div tags contained within the respective component (view and non-view)
 
+Design Responsibilities for each team:
+- If you have a View Component, you need to manage the styling
+	- Create CSS
+
 Login, General App Layout, & Firebase Team
 - Components Responsibilities:
 	- App Component
