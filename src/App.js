@@ -1,4 +1,7 @@
 import React from 'react';
+
+import Componnet from './component.js'
+
 import './App.css';
 
 class App extends React.Component {
@@ -83,6 +86,7 @@ class App extends React.Component {
     	//add your code in the div
         return (
             <div>
+            	<Component/>
             </div>
         )
     }
