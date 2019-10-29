@@ -1,5 +1,8 @@
 import React from 'react';
 import './App.css';
+import Component from './component';
+
+//  src\component.js
 
 class App extends React.Component {
     state = {
@@ -83,6 +86,7 @@ class App extends React.Component {
     	//add your code in the div
         return (
             <div>
+				<Component/>
             </div>
         )
     }
