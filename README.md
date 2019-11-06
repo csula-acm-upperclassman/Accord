@@ -16,7 +16,7 @@ npm start
 
 Inside the terminal, to terminate the server:
 ```
-Ctrl + C
+Ctrl + c
 ```
 
 ## Project Structure  
