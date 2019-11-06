@@ -14,6 +14,11 @@ To run in localhost:
 npm start
 ```
 
+Inside the terminal, to terminate the server:
+```
+Ctrl + C
+```
+
 ## Project Structure  
 https://docs.google.com/document/d/1DZUexX04E2fHFS3uGeZrkxeZv8UXFea_rLYvtlHbAi4/edit?usp=sharing
 
