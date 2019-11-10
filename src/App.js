@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 
+import Navigation from './components/server-navigation/navigation';
+
 class App extends React.Component {
     state = {
         user: {
@@ -83,6 +85,7 @@ class App extends React.Component {
     	//add your code in the div
         return (
             <div>
+				<Navigation/>
             </div>
         )
     }
