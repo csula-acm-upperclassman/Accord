@@ -1,5 +1,5 @@
 import React from 'react';
-import Fire from './config/fireconfig'
+import Fire from './fireconfig'
 import Firebase from 'firebase'
 
 import './App.css';
