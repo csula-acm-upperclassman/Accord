@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# config
+/src/config/fireconfig.js
+
 # production
 /build
 
