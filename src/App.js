@@ -245,6 +245,7 @@ class App extends React.Component {
     	//add your code in the div
         return (
             <div className='App'>
+                Testing
             </div>
         )
     }
