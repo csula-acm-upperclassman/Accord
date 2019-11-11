@@ -1,7 +1,12 @@
 import React from 'react';
+import Fire from './config/fireconfig'
+import Firebase from 'firebase'
+
 import './App.css';
 
 class App extends React.Component {
+	db = null
+
     state = {
         user: {
         	uid: '987654321',
@@ -66,23 +71,180 @@ class App extends React.Component {
     }
 
     actions = {
-        login: (email,password) => {},
-        logout: () => {},
-        createAccount: (email,password) => {},
-        setStatus: (status) => {},
-        joinRoom: (inviteCode) => {},
-        createRoom: (roomDetails) => {},
-        deleteRoom: (roomId) => {},
-        leaveRoom: (userId,roomId) => {},
-        sendMessage: (state,roomId) => {},
+		googleLogin: () => {
+			const provider = new Firebase.auth.GoogleAuthProvider()
+
+			Firebase.auth().signInWithPopup(provider)
+                .then((u) => {
+					const usersRef = this.db.ref('users')
+					
+					if (!usersRef.child(u.user.uid)) {
+						usersRef.update({
+							[u.user.uid]: {
+								id: u.user.uid,
+								displayName: u.user.email,
+								email: u.user.email,
+								name: 'n/a'
+							}
+						})
+	
+						u.user.updateProfile({
+							displayName: u.user.email
+						})
+					}
+					
+                    console.log('Successfully Logged In');
+                })
+                .catch((err) => {
+                    console.log('Error: ' + err.toString())
+                })
+		},
+        login: (email,password) => {
+			Fire.auth().signInWithEmailAndPassword(email, password)
+                .then((u) => {
+                    console.log('Successfully Logged In');
+                })
+                .catch((err) => {
+                    console.log('Error: ' + err.toString());
+                })
+		},
+        logout: () => {
+			Fire.auth().signOut()
+			Firebase.auth().signOut()
+		},
+        createAccount: (email,password) => {
+			Fire.auth().createUserWithEmailAndPassword(email, password)
+                .then((u) => {
+                    const usersRef = this.db.ref('users')
+
+                    usersRef.update({
+                        [u.user.uid]: {
+                            id: u.user.uid,
+                            displayName: u.user.email,
+                            email: u.user.email,
+                            name: 'n/a'
+                        }
+                    })
+
+                    u.user.updateProfile({
+                        displayName: u.user.email
+                    })
+                })
+                .catch((err) => {
+                    console.log('Error: ' + err.toString());
+                })
+		},
+        setStatus: (status) => {
+			this.setState({status: status})
+		},
+        joinRoom: (inviteCode) => {
+			let conflict = false
+
+            if (this.state.ownedRooms) {
+                if (this.state.ownedRooms.hasOwnProperty(inviteCode.substring(15,inviteCode.length))) {
+                    conflict = true
+                }
+            }
+            if (this.state.subbedRooms) {
+                if (this.state.subbedRooms.hasOwnProperty(inviteCode.substring(15,inviteCode.length))) {
+                    conflict = true
+                }
+            }
+            if (!conflict) {
+                const membersRef = this.db.ref(`rooms/${inviteCode.substring(15,inviteCode.length)}/members`)
+                const date = new Date()
+                const month = date.getMonth() + 1
+                const time = date.getTime()
+                const createdOn = month + '/' + date.getDate() + '/' + date.getFullYear() + '  @' + time
+
+                membersRef.update({
+                    [this.state.user.uid]: {
+                        memberId: this.state.user.uid,
+                        displayName: this.state.user.displayName,
+                        email: this.state.user.email,
+                        joined: createdOn
+                    }
+                })
+            }
+		},
+        createRoom: (roomDetails) => {
+			const roomsRef = this.db.ref('rooms')
+            const newId = roomsRef.push().key
+            const date = new Date()
+            const month = date.getMonth() + 1
+            const time = date.getTime()
+            const createdOn = month + '/' + date.getDate() + '/' + date.getFullYear() + '  @' + time
+
+            roomDetails.id = newId
+            roomDetails.ownerId = this.state.user.uid
+            roomDetails.created = createdOn
+
+            roomsRef.update({
+                [newId]: {
+                    details: roomDetails
+                }
+            })
+		},
+        deleteRoom: (roomId) => {
+			const roomsRef = this.db.ref(`rooms`)
+
+            roomsRef.child(roomId).remove()
+		},
+        leaveRoom: (userId,roomId) => {
+			const membersRef = this.db.ref(`rooms/${roomId}/members`)
+
+            membersRef.child(userId).remove()
+		},
+        sendMessage: (state,roomId) => {
+			const messagesRef = this.db.ref(`rooms/${roomId}/messages`)
+            const newId = messagesRef.push().key
+            const date = new Date()
+            const month = date.getMonth() + 1
+            const time = date.getTime()
+            const createdOn = month + '/' + date.getDate() + '/' + date.getFullYear() + '  @' + time
+
+            state.id = newId
+            state.user = this.state.user.displayName
+            state.created = createdOn
+
+            messagesRef.update({
+                [newId]: state
+            })
+		},
         sendInvite: () => {},
         deleteMessage: () => {}
-    }
+	}
+	
+	componentDidMount() {
+		this.db = Fire.database()
+
+		Fire.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ user })
+                this.loadOwnedRooms()
+                this.loadSubbedRooms()
+                
+            } else {
+                this.setState({ user: null })
+            }
+		})
+
+		Firebase.auth().onAuthStateChanged((user) => {
+			if (user) {
+				this.setState({ user })
+				this.loadOwnedRooms()
+				this.loadSubbedRooms()
+				
+			} else {
+				this.setState({ user: null })
+			}
+		})
+	}
 
     render() {
     	//add your code in the div
         return (
-            <div>
+            <div className='App'>
             </div>
         )
     }
