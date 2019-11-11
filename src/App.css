@@ -1,0 +1,21 @@
+.App {
+  width: 100vw;
+  height: 100vh;
+  background-color: #1C1C1E;
+}
+
+/*----- used for creating animation -----*/
+@keyframes text-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinning-text {
+  animation: text-spin 4s;
+  margin-top: 50vh;
+  top: -1px;
+}
