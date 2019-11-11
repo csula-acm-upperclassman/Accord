@@ -9,7 +9,7 @@
 /coverage
 
 # config
-/src/config/fireconfig.js
+/src/fireconfig.js
 
 # production
 /build
