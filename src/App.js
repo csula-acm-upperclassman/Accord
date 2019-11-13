@@ -1,6 +1,8 @@
 import React from 'react';
-import Fire from './fireconfig'
-import Firebase from 'firebase'
+import Fire from './fireconfig';
+import Firebase from 'firebase';
+
+import Login from './components/Login/Login.js'
 
 import './App.css';
 
