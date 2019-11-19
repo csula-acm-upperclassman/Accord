@@ -2,6 +2,9 @@ import React from 'react';
 import Fire from './fireconfig'
 import Firebase from 'firebase'
 
+import Home from './components/home/home'
+import {BrowserRouter,Route,Switch,Link} from 'react-router-dom'
+
 import './App.css';
 
 class App extends React.Component {
@@ -245,6 +248,9 @@ class App extends React.Component {
     	//add your code in the div
         return (
             <div className='App'>
+            <BrowserRouter>
+                <Home state={this.state}/>
+                </BrowserRouter>
             </div>
         )
     }
