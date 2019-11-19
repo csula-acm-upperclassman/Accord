@@ -2,9 +2,11 @@ import React from 'react';
 import Fire from './fireconfig';
 import Firebase from 'firebase';
 
-import Login from './components/Login/Login.js'
+import Login from './components/Login/login.js';
 
 import './App.css';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
 	db = null
@@ -247,6 +249,7 @@ class App extends React.Component {
     	//add your code in the div
         return (
             <div className='App'>
+                <Login actions={this.actions}/>
             </div>
         )
     }

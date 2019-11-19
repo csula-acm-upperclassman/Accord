@@ -1,8 +1,8 @@
-import React from 'react';
-// import logo from './accordlogoname.png';
+import React from 'react'
 
-import 'bootstrap/dist/css/bootstrap.css'
-// import './Login.css';
+import logo from './accordlogoname.png';
+
+import './Login.css';
 
 
 export default class Login extends React.Component {
@@ -12,12 +12,12 @@ export default class Login extends React.Component {
     }
 
     login = () => {
-        this.props.actions.login(this.state.emailInput,this.state.passwordInput)
-        this.setState({emailInput: '',passwordInput: ''})
+        this.props.actions.login(this.state.emailInput, this.state.passwordInput)
+        this.setState({emailInput: '', passwordInput: ''})
     }
 
     handleKeyDown = (e) => {
-        if (e.keyCode == 13) {
+        if (e.keyCode === 13) {
             this.login()
         }
     }
@@ -30,15 +30,15 @@ export default class Login extends React.Component {
         this.setState({passwordInput: e.target.value})
     }
 
-    createAccount = () => {
+    createAccount = (e) => {
         this.props.actions.createAccount(this.state.emailInput,this.state.passwordInput)
-        this.setState({emailInput: '', passwordInput: ''})
+        this.setState({emailInput:'', passwordInput: ''})
     }
 
     render(){
         return(
             <div className="login-container" style={{textAlign: 'center'}}>
-                {/* <img className="login-logo" src={logo}/> */}
+                 <img className="login-logo" src={logo} alt="" /> 
                 <div className="post-container">
                     <input className="input-field" placeholder="Email" type="text" value={this.state.emailInput} onChange={this.updateEmailInput} onKeyDown={this.handleKeyDown}/>
                     <input className="input-field" placeholder="Password" type="password" value={this.state.passwordInput} onChange={this.updatePasswordInput} onKeyDown={this.handleKeyDown}/>
